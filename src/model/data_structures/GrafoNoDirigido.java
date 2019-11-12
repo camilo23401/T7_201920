@@ -11,8 +11,10 @@ public class GrafoNoDirigido<K extends Comparable<K>,T> {
 	private HashSeparateChaining<K,T>val;
 	private HashSeparateChaining<K, ArregloDinamico<Arco<K>>> adj;
 	private HashSeparateChaining<K,Boolean>mark;
-
-	private int marcado;
+	private HashSeparateChaining<Integer,Integer>cantidadConectados;
+	private HashSeparateChaining<Integer,K>idconectados;
+	private int capacidad;
+	private int count;//numero de componentes 
 
 
 	private class Arco<R> implements  Comparable <Arco<R>>  {
@@ -48,13 +50,16 @@ public class GrafoNoDirigido<K extends Comparable<K>,T> {
 	}
 
 	public GrafoNoDirigido(int tamanio) {
+
 		if (V < 0) throw new IllegalArgumentException("La cantidad de vertices debe ser positivos");
 		V = 0;
 		E = 0;
-		marcado=0;
 		adj = new HashSeparateChaining<K,ArregloDinamico<Arco<K>>>(tamanio); 
 		val=new HashSeparateChaining<K,T>(tamanio);
+		capacidad=tamanio;
 		mark=new HashSeparateChaining<K,Boolean>(tamanio);
+		cantidadConectados=new HashSeparateChaining<Integer, Integer>(tamanio);
+		idconectados=new HashSeparateChaining<Integer, K>(tamanio);
 
 
 	}
@@ -154,18 +159,30 @@ public class GrafoNoDirigido<K extends Comparable<K>,T> {
 	}
 
 	public void dfs(K s) {
-		marcado++;
 		mark.setValue(s, true);
+		idconectados.putInSet(count, s);
+
 		ArregloDinamico<Arco<K>>lista=adj.get(s);
 		for (int i = 0; i < lista.darTamano(); i++) {
 			K destino=lista.darElementoPos(i).getId();
 			if(!marked(destino)) {
 				mark.setValue(destino, true);
-				dfs(destino);			}
+				dfs(destino);		
+			}
 		}
 
 
 	}
+	public int CC() {
+		for (int v = 0; v < capacidad; v++) {
+			if (mark.getPos(v)!=null&&!mark.getPos(v)) {
+				dfs(mark.getPosKey(v));
+				count++;
+			}
+		}
+		return count;
+	}
+
 
 	public void uncheck() {
 		for (int i = 0; i < mark.darCapacidad(); i++) {
@@ -173,7 +190,7 @@ public class GrafoNoDirigido<K extends Comparable<K>,T> {
 			if(actual!=null) {
 				mark.setValue(actual, false);
 			}
-			marcado=0;
+			count=0;
 
 		}
 
@@ -183,9 +200,6 @@ public class GrafoNoDirigido<K extends Comparable<K>,T> {
 		return  mark.get(v)==true;
 	}
 
-	public int cc() {
-		return marcado;
-	}
 
 	public Iterable<K>getCC(K idVertex){
 		this.uncheck();
@@ -198,7 +212,7 @@ public class GrafoNoDirigido<K extends Comparable<K>,T> {
 			}
 		}
 		return retorno;
-		
+
 	}
 
 }

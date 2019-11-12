@@ -82,7 +82,7 @@ public class TestGrafo {
 	}
 
 	@Test
-	public void testdfscc() {
+	public void testdfs() {
 		grafo.addVertex(0, "Nestor");
 		grafo.addVertex(1, "Camilo");
 		grafo.addVertex(2, "Alejandro");
@@ -98,20 +98,14 @@ public class TestGrafo {
 		grafo.addEdge(0, 4, 40.00);
 		grafo.addEdge(0, 5, 40.00);
 		assertEquals(6, grafo.E());
-		grafo.uncheck();
-		grafo.dfs(0);
-		assertEquals(7,grafo.cc());
-		grafo.uncheck();
-		assertEquals(0,grafo.cc());
-		grafo.dfs(7);
-		assertEquals(1,grafo.cc());
-		grafo.uncheck();
+	
 
 
 	}
 
 	@Test
 	public void testgetcc() {
+		grafo.uncheck();
 		grafo.addVertex(0, "Nestor");
 		grafo.addVertex(1, "Camilo");
 		grafo.addVertex(2, "Alejandro");
@@ -120,17 +114,15 @@ public class TestGrafo {
 		grafo.addVertex(5, "Nelson");
 		grafo.addVertex(6, "nut");
 		grafo.addVertex(7, "nut");
+		grafo.addVertex(9, "nut");
 		grafo.addEdge(0, 1, 20.00);
 		grafo.addEdge(0, 6, 40.00);
 		grafo.addEdge(0, 2, 30.00);
 		grafo.addEdge(0, 3, 40.00);
 		grafo.addEdge(0, 4, 40.00);
 		grafo.addEdge(0, 5, 40.00);
-		assertEquals(6, grafo.E());
-		ArregloDinamico<Integer>cc=(ArregloDinamico<Integer>) grafo.getCC(0);
-		assertEquals(7,cc.darTamano()); 
-		ArregloDinamico<Integer>cc1=(ArregloDinamico<Integer>) grafo.getCC(7);
-		assertEquals(1,cc1.darTamano()); 
+		grafo.uncheck();
+		assertEquals(3, grafo.CC());
 
 
 	}
