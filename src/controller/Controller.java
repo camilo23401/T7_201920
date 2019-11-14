@@ -35,6 +35,15 @@ public class Controller {
 			int option = lector.nextInt();
 			switch(option){
 				case 1:
+					try
+					{
+						modelo.cargarInfo();	
+						System.out.println("Se cargaron satisfactoriamente los datos al sistema");
+					}
+					catch(Exception e)
+					{
+						System.out.println("Se produjo un error: " + e.getCause());
+					}	
 					break;
 
 				case 2:
