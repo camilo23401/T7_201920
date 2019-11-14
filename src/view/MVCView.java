@@ -15,7 +15,7 @@ public class MVCView
 		public void printMenu()
 		{
 			System.out.println("1. Cargar datos al sistema");
-			System.out.println("1. Dar cantidad de componentes conectadas");
+			System.out.println("2. Dar cantidad de componentes conectadas");
 			System.out.println("Dar el numero de opcion a resolver, luego oprimir tecla Return: (e.g., 1):");
 		}
 

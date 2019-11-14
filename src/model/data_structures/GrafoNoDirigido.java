@@ -81,7 +81,6 @@ public class GrafoNoDirigido<K extends Comparable<K>,T> {
 		if(origen!=null&&destino!=null) {
 			Arco<K>ori=new Arco<K>(cost,idVertexIni);
 			Arco<K>dest=new Arco<K>(cost,idVertexFin);
-			if(destino.darElemento(ori)==null)
 			origen.agregar(dest);
 			destino.agregar(ori);
 			E++;
@@ -172,7 +171,10 @@ public class GrafoNoDirigido<K extends Comparable<K>,T> {
 
 
 	}
+	
+	
 	public int CC() {
+		uncheck();
 		for (int v = 0; v < capacidad; v++) {
 			if (mark.getPos(v)!=null&&!mark.getPos(v)) {
 				dfs(mark.getPosKey(v));

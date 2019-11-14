@@ -23,12 +23,14 @@ public class MVCModelo
 		FileReader lectorArchivo = new FileReader(rutaArchivoVertices);
 		BufferedReader lector = new BufferedReader(lectorArchivo);
 		String linea = lector.readLine();
-		while((linea=lector.readLine())!=null)
+		linea=lector.readLine();
+		int cont=0;
+		while((linea!=null))
 		{
 			String [] partes = linea.split(";");
-			System.out.println(partes[0]);
 			Coordenadas interseccion = new Coordenadas(Double.parseDouble(partes[1]), Double.parseDouble(partes[2]) , Integer.parseInt(partes[3]));
 			grafo.addVertex(Integer.parseInt(partes[0]),interseccion);
+			cont++;
 			linea = lector.readLine();
 		}
 		lector.close();
