@@ -16,27 +16,20 @@ import model.data_structures.GrafoNoDirigido;
 public class MVCModelo 
 {
 
-	private GrafoNoDirigido<Integer, String> grafo = new GrafoNoDirigido<Integer, String>(2000000);
+	private GrafoNoDirigido<Integer, Coordenadas> grafo = new GrafoNoDirigido<Integer, Coordenadas>(9999999);
 	public void cargarInfo() throws IOException
 	{
-		String rutaArchivoVertices = "data/bogota_vertices.txt";
+		String rutaArchivoVertices = "./data/bogota_vertices.txt";
 		FileReader lectorArchivo = new FileReader(rutaArchivoVertices);
 		BufferedReader lector = new BufferedReader(lectorArchivo);
 		String linea = lector.readLine();
-		int contador = 0;
-		while(linea!=null)
+		while((linea=lector.readLine())!=null)
 		{
-			if (contador==0)
-			{
-				contador++;
-				linea = lector.readLine();
-			}
-			else
-			{
-				String [] partes = linea.split(";");
-				grafo.addVertex(Integer.parseInt(partes[0]),partes[1]+","+partes[2]+","+partes[3] );
-				linea = lector.readLine();
-			}
+			String [] partes = linea.split(";");
+			System.out.println(partes[0]);
+			Coordenadas interseccion = new Coordenadas(Double.parseDouble(partes[1]), Double.parseDouble(partes[2]) , Integer.parseInt(partes[3]));
+			grafo.addVertex(Integer.parseInt(partes[0]),interseccion);
+			linea = lector.readLine();
 		}
 		lector.close();
 		String rutaArchivoArcos = "data/bogota_arcos.txt";
@@ -46,39 +39,37 @@ public class MVCModelo
 		while(linea2!=null)
 		{
 			String [] partes = linea2.split(" ");
-			
-				int i=1;
-				while(i<partes.length)
-				{
-					
-					grafo.addEdge(Integer.parseInt(partes[0]), Integer.parseInt(partes[i]), calcularPeso(Integer.parseInt(partes[0]), Integer.parseInt(partes[i])));
-					i++;
-				}
-				linea2 = lector2.readLine();
+
+			int i=1;
+			while(i<partes.length)
+			{
+
+				grafo.addEdge(Integer.parseInt(partes[0]), Integer.parseInt(partes[i]), calcularPeso(Integer.parseInt(partes[0]), Integer.parseInt(partes[i])));
+				i++;
 			}
+			linea2 = lector2.readLine();
+		}
 		System.out.println("Cantidad de vertices cargados:"+ grafo.V());
 		System.out.println("Cantidad de Arcos cargados:"+ grafo.E());
-			
-		}
-	
+
+	}
+
 
 	public double calcularPeso(int pIdInicio, int pIdFinal)
 	{
 		double rta = 0.0;
 		if(grafo.getInfoVertex(pIdInicio)!=null && grafo.getInfoVertex(pIdFinal)!=null)
 		{
-			String[]infoIn=grafo.getInfoVertex(pIdInicio).split(",");
-			String[]infoFin=grafo.getInfoVertex(pIdFinal).split(",");
-			double latInicial = Double.parseDouble(infoIn[0]);
-			double latFinal = Double.parseDouble(infoFin[0]);
-			double lonInicial =Double.parseDouble(infoIn[1]);
-			double lonFinal = Double.parseDouble(infoFin[1]);
+			double latInicial = grafo.getInfoVertex(pIdInicio).darLatitud();
+			double latFinal = grafo.getInfoVertex(pIdFinal).darLatitud();
+			double lonInicial =grafo.getInfoVertex(pIdInicio).darLongitud();
+			double lonFinal = grafo.getInfoVertex(pIdFinal).darLongitud();
 
 			rta = Haversine.distance(latInicial, lonInicial, latFinal, lonFinal);
 		}
 		return rta;
 	}
-	
+
 
 	public int darCantidadConectadas() {
 		return grafo.CC();
