@@ -64,6 +64,15 @@ public class Controller {
 					break;
 
 				case 4:
+					try
+					{
+						modelo.tomarJson();
+						System.out.println("Se cargó la información correctamente desde el archivo JSON");
+					}
+					catch(Exception e)
+					{
+						System.out.println("Se produjo un error leyendo el archivo JSON: " + e.getMessage());
+					}
 					break;
 
 				case 5: 

@@ -97,8 +97,7 @@ public class MVCModelo
 	
 	public void tomarJson() throws IOException
 	{
-		TypeToken<GrafoNoDirigido<Integer, Coordenadas>> aux = new TypeToken<GrafoNoDirigido<Integer,Coordenadas>>();
-		Type caracteristicas = new TypeToken<GrafoNoDirigido<Integer,Coordenadas>>{}{}.getType();
+		Type caracteristicas = new TypeToken<GrafoNoDirigido<Integer,Coordenadas>>(){}.getType();
 		Gson gson = new Gson();
 		FileReader lectorArchivos = new FileReader("data/grafoNoDirigido.json");
 		JsonReader parser = new JsonReader(lectorArchivos);
