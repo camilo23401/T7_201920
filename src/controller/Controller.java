@@ -52,6 +52,15 @@ public class Controller {
 					break;
 
 				case 3:
+					try
+					{
+						modelo.crearJSON();
+						System.out.println("Se creó el archivo de forma satisfactoria");
+					}
+					catch(Exception e)
+					{
+						System.out.println("Se produjo un error creando el archivo JSON: " + e.getMessage());
+					}
 					break;
 
 				case 4:

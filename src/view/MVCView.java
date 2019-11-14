@@ -16,6 +16,7 @@ public class MVCView
 		{
 			System.out.println("1. Cargar datos al sistema");
 			System.out.println("2. Dar cantidad de componentes conectadas");
+			System.out.println("3. Crear archivo JSON desde los datos cargados");
 			System.out.println("Dar el numero de opcion a resolver, luego oprimir tecla Return: (e.g., 1):");
 		}
 

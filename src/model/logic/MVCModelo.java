@@ -2,8 +2,18 @@ package model.logic;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.lang.reflect.Type;
+
+import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
+
+import jdk.nashorn.internal.parser.JSONParser;
+
+import com.google.gson.*;
 
 import model.data_structures.ArregloDinamico;
 import model.data_structures.GrafoNoDirigido;
@@ -19,7 +29,7 @@ public class MVCModelo
 	private GrafoNoDirigido<Integer, Coordenadas> grafo = new GrafoNoDirigido<Integer, Coordenadas>(9999999);
 	public void cargarInfo() throws IOException
 	{
-		String rutaArchivoVertices = "./data/bogota_vertices.txt";
+		String rutaArchivoVertices = "data/bogota_vertices.txt";
 		FileReader lectorArchivo = new FileReader(rutaArchivoVertices);
 		BufferedReader lector = new BufferedReader(lectorArchivo);
 		String linea = lector.readLine();
@@ -75,6 +85,27 @@ public class MVCModelo
 
 	public int darCantidadConectadas() {
 		return grafo.CC();
+	}
+	
+	public void crearJSON() throws IOException
+	{
+		Gson gson = new Gson();
+		String estrucJsonGrafo = gson.toJson(grafo);
+		PrintWriter impresora = new PrintWriter(new FileWriter("data/grafoNoDirigido.json"));
+		impresora.print(estrucJsonGrafo);
+	}
+	
+	public void tomarJson() throws IOException
+	{
+		TypeToken<GrafoNoDirigido<Integer, Coordenadas>> aux = new TypeToken<GrafoNoDirigido<Integer,Coordenadas>>();
+		Type caracteristicas = new TypeToken<GrafoNoDirigido<Integer,Coordenadas>>{}{}.getType();
+		Gson gson = new Gson();
+		FileReader lectorArchivos = new FileReader("data/grafoNoDirigido.json");
+		JsonReader parser = new JsonReader(lectorArchivos);
+		JsonElement aux = new JsonParser().parse(parser);
+		GrafoNoDirigido<Integer, Coordenadas> grafoAux = gson.fromJson(aux, caracteristicas);
+		grafo = grafoAux;
+		lectorArchivos.close();
 	}
 
 }
