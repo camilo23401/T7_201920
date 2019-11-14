@@ -11,7 +11,6 @@ public class GrafoNoDirigido<K extends Comparable<K>,T> {
 	private HashSeparateChaining<K,T>val;
 	private HashSeparateChaining<K, ArregloDinamico<Arco<K>>> adj;
 	private HashSeparateChaining<K,Boolean>mark;
-	private HashSeparateChaining<Integer,Integer>cantidadConectados;
 	private HashSeparateChaining<Integer,K>idconectados;
 	private int capacidad;
 	private int count;//numero de componentes 
@@ -58,7 +57,6 @@ public class GrafoNoDirigido<K extends Comparable<K>,T> {
 		val=new HashSeparateChaining<K,T>(tamanio);
 		capacidad=tamanio;
 		mark=new HashSeparateChaining<K,Boolean>(tamanio);
-		cantidadConectados=new HashSeparateChaining<Integer, Integer>(tamanio);
 		idconectados=new HashSeparateChaining<Integer, K>(tamanio);
 
 
@@ -72,7 +70,7 @@ public class GrafoNoDirigido<K extends Comparable<K>,T> {
 	}
 	public void addVertex(K idVertex, T infoVertex) {
 		val.put(idVertex, infoVertex);
-		adj.put(idVertex, new ArregloDinamico<Arco<K>>(1000000));
+		adj.put(idVertex, new ArregloDinamico<Arco<K>>(1000));
 		mark.put(idVertex, false);
 		V++;
 	}
@@ -83,6 +81,7 @@ public class GrafoNoDirigido<K extends Comparable<K>,T> {
 		if(origen!=null&&destino!=null) {
 			Arco<K>ori=new Arco<K>(cost,idVertexIni);
 			Arco<K>dest=new Arco<K>(cost,idVertexFin);
+			if(destino.darElemento(ori)==null)
 			origen.agregar(dest);
 			destino.agregar(ori);
 			E++;

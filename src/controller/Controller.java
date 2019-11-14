@@ -42,11 +42,13 @@ public class Controller {
 					}
 					catch(Exception e)
 					{
-						System.out.println("Se produjo un error: " + e.getCause());
+						e.printStackTrace();
 					}	
 					break;
 
 				case 2:
+					int conec=modelo.darCantidadConectadas();
+					System.out.println("Hay "+conec+" componentes conectadas");
 					break;
 
 				case 3:

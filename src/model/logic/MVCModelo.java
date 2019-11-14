@@ -15,9 +15,8 @@ import model.data_structures.GrafoNoDirigido;
  */
 public class MVCModelo 
 {
-	ArregloDinamico<Vertice> vertices = new ArregloDinamico<Vertice>(50000000);	
-	ArregloDinamico<Integer> adyacentes = new ArregloDinamico<Integer>(1);
-	GrafoNoDirigido<Integer, Coordenadas> grafo = new GrafoNoDirigido<Integer, Coordenadas>(2000000);
+
+	private GrafoNoDirigido<Integer, String> grafo = new GrafoNoDirigido<Integer, String>(2000000);
 	public void cargarInfo() throws IOException
 	{
 		String rutaArchivoVertices = "data/bogota_vertices.txt";
@@ -35,7 +34,7 @@ public class MVCModelo
 			else
 			{
 				String [] partes = linea.split(";");
-				grafo.addVertex(Integer.parseInt(partes[0]), new Coordenadas(Double.parseDouble(partes[2]),Double.parseDouble(partes[1])));
+				grafo.addVertex(Integer.parseInt(partes[0]),partes[1]+","+partes[2]+","+partes[3] );
 				linea = lector.readLine();
 			}
 		}
@@ -47,58 +46,33 @@ public class MVCModelo
 		while(linea2!=null)
 		{
 			String [] partes = linea2.split(" ");
-			if(buscarIdEnVertices(Integer.parseInt(partes[0]))!=null)
-			{
+			
 				int i=1;
 				while(i<partes.length)
 				{
-					System.out.println("A");
+					
 					grafo.addEdge(Integer.parseInt(partes[0]), Integer.parseInt(partes[i]), calcularPeso(Integer.parseInt(partes[0]), Integer.parseInt(partes[i])));
 					i++;
 				}
 				linea2 = lector2.readLine();
 			}
-			else
-			{
-				linea2 = lector2.readLine();	
-			}
+		System.out.println("Cantidad de vertices cargados:"+ grafo.V());
+		System.out.println("Cantidad de Arcos cargados:"+ grafo.E());
+			
 		}
-	}
+	
 
-	/**public Vertice buscarIdEnVertices(int pId)
-	{
-		int inicio = 0;
-		int fin = vertices.darTamano();
-		int medio = (fin+inicio) / 2;
-		while(vertices.darElementoPos(medio).darId() !=  pId) 
-		{
-			if (vertices.darElementoPos(medio).darId() < pId) 
-			{
-				inicio = medio;
-			} 
-			else 
-			{
-				fin = medio;
-			}
-			medio = (fin+inicio) / 2;
-		}
-		return vertices.darElementoPos(medio);	
-
-	}
-	*/
-	public Coordenadas buscarIdEnVertices(int pId)
-	{
-		return grafo.getInfoVertex(pId);
-	}
 	public double calcularPeso(int pIdInicio, int pIdFinal)
 	{
 		double rta = 0.0;
-		if(buscarIdEnVertices(pIdInicio)!=null && buscarIdEnVertices(pIdFinal)!=null)
+		if(grafo.getInfoVertex(pIdInicio)!=null && grafo.getInfoVertex(pIdFinal)!=null)
 		{
-			double latInicial = buscarIdEnVertices(pIdInicio).darLatitud();
-			double latFinal = buscarIdEnVertices(pIdFinal).darLatitud();
-			double lonInicial = buscarIdEnVertices(pIdInicio).darLongitud();
-			double lonFinal = buscarIdEnVertices(pIdFinal).darLongitud();
+			String[]infoIn=grafo.getInfoVertex(pIdInicio).split(",");
+			String[]infoFin=grafo.getInfoVertex(pIdFinal).split(",");
+			double latInicial = Double.parseDouble(infoIn[0]);
+			double latFinal = Double.parseDouble(infoFin[0]);
+			double lonInicial =Double.parseDouble(infoIn[1]);
+			double lonFinal = Double.parseDouble(infoFin[1]);
 
 			rta = Haversine.distance(latInicial, lonInicial, latFinal, lonFinal);
 		}
@@ -106,5 +80,8 @@ public class MVCModelo
 	}
 	
 
+	public int darCantidadConectadas() {
+		return grafo.CC();
+	}
 
 }
