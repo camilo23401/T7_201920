@@ -215,5 +215,9 @@ public class GrafoNoDirigido<K extends Comparable<K>,T> {
 		return retorno;
 
 	}
+	public int darCapacidad()
+	{
+		return capacidad;
+	}
 
 }

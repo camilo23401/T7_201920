@@ -119,7 +119,7 @@ public class MVCModelo
 	public ArregloDinamico<Coordenadas> sacarCoordenadasVertices()
 	{
 		ArregloDinamico<Coordenadas> rta = new ArregloDinamico<Coordenadas>(300000);
-		for(int i=0; i<subGrafo.V();i++)
+		for(int i=0; i<subGrafo.darCapacidad();i++)
 		{
 			Coordenadas actual = subGrafo.getInfoVertex(i);
 			if(actual!=null)
@@ -127,7 +127,7 @@ public class MVCModelo
 				rta.agregar(actual);	
 			}
 		}
-		System.out.println(rta.darTamano());
+		
 		return rta;
 	}
 	public void nada()
