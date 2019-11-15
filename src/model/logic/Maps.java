@@ -73,6 +73,17 @@ public class Maps extends MapView {
 							middleLoc1.setCenter(locations[i]); 
 							middleLoc1.setRadius(20); //Radio del circulo
 						}
+
+			        	 //Configuracion de la linea del camino
+			        	 PolylineOptions pathOpt = new PolylineOptions();
+			        	 pathOpt.setStrokeColor("#FFFF00");	  // color de linea	
+			        	 pathOpt.setStrokeOpacity(1.75);
+			        	 pathOpt.setStrokeWeight(1.5);
+			        	 pathOpt.setGeodesic(false);
+			        	 
+			        	 Polyline path = new Polyline(map); 														
+			        	 path.setOptions(pathOpt); 
+			        	 path.setPath(locations);
 						initMap( map );
 					}
 				}

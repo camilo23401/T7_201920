@@ -219,5 +219,16 @@ public class GrafoNoDirigido<K extends Comparable<K>,T> {
 	{
 		return capacidad;
 	}
+	public ArregloDinamico<K> adyacentes(K pId)
+	{
+		ArregloDinamico<K> rta = new ArregloDinamico<K>(2);
+		Iterable iter = adje(pId);
+		Iterator iterador = iter.iterator();
+		while(iterador.hasNext())
+		{
+			rta.agregar((K)iterador.next());
+		}
+		return rta;
+	}
 
 }

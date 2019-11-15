@@ -127,12 +127,26 @@ public class MVCModelo
 				rta.agregar(actual);	
 			}
 		}
-		
 		return rta;
 	}
-	public void nada()
+	public Coordenadas[] parejasVertices(int pId)
 	{
-
+		ArregloDinamico<Integer> aux = subGrafo.adyacentes(pId);
+		Coordenadas[][] rta = new Coordenadas[aux.darTamano()][];
+		for(int i=0; i < aux.darTamano();i++)
+		{
+			Coordenadas[] actual = sacarPareja(pId, aux.darElementoPos(i));
+			rta[i] = actual;
+		}
+		return rta;
 	}
+	public Coordenadas[] sacarPareja(int pId, int pIdAdyacente)
+	{
+		Coordenadas[]  rta = new Coordenadas[2];
+		rta[0] = subGrafo.getInfoVertex(pId);
+		rta[1] = subGrafo.getInfoVertex(pIdAdyacente);
+		return rta;
+	}
+
 
 }
