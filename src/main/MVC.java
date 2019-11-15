@@ -1,5 +1,6 @@
 package main;
 import controller.Controller;
+import model.logic.Maps;
 
 public class MVC {
 	

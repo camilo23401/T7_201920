@@ -2,8 +2,13 @@ package controller;
 
 import java.util.Scanner;
 
+import com.sun.javafx.collections.MapAdapterChange;
+import com.teamdev.jxmaps.LatLng;
+
+import model.logic.Coordenadas;
 import model.logic.MVCModelo;
 import view.MVCView;
+import model.logic.Maps;
 
 public class Controller {
 
@@ -12,6 +17,8 @@ public class Controller {
 	
 	/* Instancia de la Vista*/
 	private MVCView view;
+	
+	private Maps mapa;
 	
 	/**
 	 * Crear la vista y el modelo del proyecto
@@ -75,7 +82,7 @@ public class Controller {
 					}
 					break;
 
-				case 5: 
+				case 5:
 					break;	
 					
 				case 6: 

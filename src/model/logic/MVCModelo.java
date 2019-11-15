@@ -27,6 +27,7 @@ public class MVCModelo
 {
 
 	private GrafoNoDirigido<Integer, Coordenadas> grafo = new GrafoNoDirigido<Integer, Coordenadas>(9999999);
+	private GrafoNoDirigido<Integer, Coordenadas> subGrafo = new GrafoNoDirigido<Integer, Coordenadas>(999999);
 	public void cargarInfo() throws IOException
 	{
 		String rutaArchivoVertices = "data/bogota_vertices.txt";
@@ -38,7 +39,13 @@ public class MVCModelo
 		while((linea!=null))
 		{
 			String [] partes = linea.split(";");
-			Coordenadas interseccion = new Coordenadas(Double.parseDouble(partes[1]), Double.parseDouble(partes[2]) , Integer.parseInt(partes[3]));
+			double longitud = Double.parseDouble(partes[1]);
+			double latitud = Double.parseDouble(partes[2]);
+			Coordenadas interseccion = new Coordenadas(latitud, longitud , Integer.parseInt(partes[3]));
+			if(longitud>=-74.094723 && longitud<= -74.062707 && latitud>=4.597714 && latitud<=4.621360)
+			{
+				subGrafo.addVertex(Integer.parseInt(partes[0]), interseccion);
+			}
 			grafo.addVertex(Integer.parseInt(partes[0]),interseccion);
 			cont++;
 			linea = lector.readLine();
@@ -63,7 +70,6 @@ public class MVCModelo
 		}
 		System.out.println("Cantidad de vertices cargados:"+ grafo.V());
 		System.out.println("Cantidad de Arcos cargados:"+ grafo.E());
-
 	}
 
 
@@ -86,7 +92,7 @@ public class MVCModelo
 	public int darCantidadConectadas() {
 		return grafo.CC();
 	}
-	
+
 	public void crearJSON() throws IOException
 	{
 		Gson gson = new Gson();
@@ -94,7 +100,7 @@ public class MVCModelo
 		PrintWriter impresora = new PrintWriter(new FileWriter("data/grafoNoDirigido.json"));
 		impresora.print(estrucJsonGrafo);
 	}
-	
+
 	public void tomarJson() throws IOException
 	{
 		Type caracteristicas = new TypeToken<GrafoNoDirigido<Integer,Coordenadas>>(){}.getType();
@@ -105,6 +111,28 @@ public class MVCModelo
 		GrafoNoDirigido<Integer, Coordenadas> grafoAux = gson.fromJson(aux, caracteristicas);
 		grafo = grafoAux;
 		lectorArchivos.close();
+	}
+	public GrafoNoDirigido<Integer, Coordenadas> darGrafo()
+	{
+		return grafo;
+	}
+	public ArregloDinamico<Coordenadas> sacarCoordenadasVertices()
+	{
+		ArregloDinamico<Coordenadas> rta = new ArregloDinamico<Coordenadas>(300000);
+		for(int i=0; i<subGrafo.V();i++)
+		{
+			Coordenadas actual = subGrafo.getInfoVertex(i);
+			if(actual!=null)
+			{
+				rta.agregar(actual);	
+			}
+		}
+		System.out.println(rta.darTamano());
+		return rta;
+	}
+	public void nada()
+	{
+
 	}
 
 }
